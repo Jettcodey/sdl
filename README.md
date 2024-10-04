@@ -70,9 +70,8 @@ This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.
 * After the installation is finished, simply open a terminal/cmd window. To begin downloading, take a look at these <a href="#full-examples">examples</a>.
 
 #### Linux and MacOS
-* Soon™
-<!--Download the Latest Zip file for your System from [Releases](https://github.com/Jettcodey/sdl/releases/latest).
-* After Downloading, Extract and Save the Content in a Safe Location where you want to save your Downloads and start a Terminal window where you put the contents.To begin downloading, take a look at these <a href="#full-examples">examples</a>.-->
+* Download the Latest `sdl-x.x.x-(linux|macos)-(ARCH).gz` file for your System from [Releases](https://github.com/Jettcodey/sdl/releases/latest).
+* After Downloading, Extract and Save the Content in a Safe Location where you want to save your Downloads and start a Terminal window where you put the contents.To begin downloading, take a look at these <a href="#full-examples">examples</a>.
 <!-- Usage -->
 ## Usage
 <!-- Downloading a single episode -->
