@@ -29,7 +29,7 @@ pub(crate) struct Args {
     pub(crate) episodes: SimpleRanges,
 
     /// Only download specific seasons
-    #[arg(short, long, value_parser = parse_ranges, default_value_t = SimpleRanges::Unspecified, hide_default_value = true, conflicts_with_all = ["episodes"], value_name = "RANGES")]
+    #[arg(short, long, value_parser = parse_ranges, default_value_t = SimpleRanges::Unspecified, hide_default_value = true/*, conflicts_with_all = ["episodes"]*/, value_name = "RANGES")]
     pub(crate) seasons: SimpleRanges,
 
     /// Use underlying extractors directly
@@ -81,22 +81,46 @@ impl Args {
     pub(crate) fn get_episodes_request(self) -> EpisodesRequest {
         match (self.episodes, self.seasons) {
             (SimpleRanges::Unspecified, SimpleRanges::Unspecified) => EpisodesRequest::Unspecified,
+            
+            // If only episodes are specified
             (SimpleRanges::Custom(episodes), SimpleRanges::Unspecified) => {
                 EpisodesRequest::Episodes(AllOrSpecific::Specific(episodes))
             }
+            
+            // If only seasons are specified
             (SimpleRanges::Unspecified, SimpleRanges::Custom(seasons)) => {
                 EpisodesRequest::Seasons(AllOrSpecific::Specific(seasons))
             }
+            
+            // Handle all episodes being requested
             (SimpleRanges::All, SimpleRanges::Unspecified) => EpisodesRequest::Episodes(AllOrSpecific::All),
             (SimpleRanges::Unspecified, SimpleRanges::All) => EpisodesRequest::Seasons(AllOrSpecific::All),
-            (SimpleRanges::All, SimpleRanges::All) | (SimpleRanges::Custom(_), SimpleRanges::Custom(_)) => {
-                unreachable!()
+    
+            // Handle both episodes and seasons specified
+            (SimpleRanges::Custom(episodes), SimpleRanges::Custom(seasons)) => {
+                EpisodesRequest::Combined {
+                    seasons: AllOrSpecific::Specific(seasons),
+                    episodes: AllOrSpecific::Specific(episodes),
+                }
             }
-            (SimpleRanges::All, SimpleRanges::Custom(_)) | (SimpleRanges::Custom(_), SimpleRanges::All) => {
-                unreachable!()
+            
+            // Handle cases where one is `All` and the other is `Custom`
+            (SimpleRanges::All, SimpleRanges::Custom(seasons)) => {
+                EpisodesRequest::Combined {
+                    seasons: AllOrSpecific::Specific(seasons),
+                    episodes: AllOrSpecific::All,
+                }
             }
+            (SimpleRanges::Custom(episodes), SimpleRanges::All) => {
+                EpisodesRequest::Combined {
+                    seasons: AllOrSpecific::All,
+                    episodes: AllOrSpecific::Specific(episodes),
+                }
+            }
+            
+            (SimpleRanges::All, SimpleRanges::All) => EpisodesRequest::All,
         }
-    }
+    }     
 
     pub(crate) fn get_download_settings(&self) -> DownloadSettings<impl FnMut() -> Duration> {
         let wait_duration = Duration::from_millis(self.ddos_wait_ms as u64);

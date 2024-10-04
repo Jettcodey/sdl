@@ -1,11 +1,13 @@
 [package]
 name = "sdl"
-version = "0.1.3"
+authors = ["Funami580","jettcodey"]
+version = "0.1.4"
 edition = "2021"
 rust-version = "1.75"
 readme = "README.md"
-repository = "https://github.com/Funami580/sdl"
+repository = "https://github.com/jettcodey/sdl"
 license = "MIT"
+license-file = "LICENSE.txt"
 categories = ["command-line-utilities"]
 
 [dependencies]
