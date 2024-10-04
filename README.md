@@ -26,6 +26,7 @@
     <li><a href="#notes">Notes</a></li>
     <li><a href="#build-from-source">Build from source</a></li>
     <li><a href="#thanks">Thanks</a></li>
+    <li><a href="#legal-notice">Legal Notice</a></li>
   </ol>
 </details>
 
@@ -231,4 +232,8 @@ See the [open issues](https://github.com/Jettcodey/sdl/issues) for a full list o
 ## Thanks
 * [aniworld_scraper](https://github.com/wolfswolke/aniworld_scraper) for the inspiration and showing how it could be done.
 * [Funami580](https://github.com/Funami580) for Developing this Command line utility.
+<p align="right"><a href="#sdl">Back to top</a></p>
+
+## Legal Notice
+This library is for educational purposes only. Downloading or accessing copyrighted content without permission may be illegal in your country. I am not responsible for any misuse or legal consequences. **Use at your own risk**.
 <p align="right"><a href="#sdl">Back to top</a></p>
