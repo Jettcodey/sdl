@@ -10,6 +10,7 @@
         <li><a href="#supported-extractors">Supported extractors</a></li>
       </ul>
     </li>
+    <li><a href="#installation">Installation</a></li>
     <li><a href="#usage">Usage</a></li>
     <ul>
        <li><a href="#downloading-a-single-episode">Downloading a single episode</a></li>
@@ -25,22 +26,22 @@
     <li><a href="#notes">Notes</a></li>
     <li><a href="#build-from-source">Build from source</a></li>
     <li><a href="#thanks">Thanks</a></li>
-    <li><a href="#">O</a></li>
-    <li><a href="#">O</a></li>
   </ol>
 </details>
 
 **Warning: This project is generally not well tested.**
+
 > [!NOTE]
-> This is a Fork of https://github.com/Funami580/sdl.
-> 
-> All the credit for making this Command line utility goes to [Funami580](https://github.com/Funami580).
+> This is a fork of https://github.com/Funami580/sdl.
+> I’m developing this independently from the original repo.
+> All credit for creating this command-line utility goes to [Funami580](https://github.com/Funami580).
+
 <!-- ABOUT THE PROJECT -->
 ### About the Project
-Download Various Anime and Series from Aniwave.se, Aniworld.to and S.to
-
+Download various anime and series from Aniwave.se, Aniworld.to, and S.to.
 
 This project is [licensed](https://github.com/Jettcodey/sdl/blob/master/LICENSE.txt) under the terms of the [MIT license](https://opensource.org/license/mit).
+
 <!-- Supported sites -->
 ## Supported sites
 ### English
@@ -59,6 +60,18 @@ This project is [licensed](https://github.com/Jettcodey/sdl/blob/master/LICENSE.
 * Voe
 <p align="right"><a href="#sdl">Back to top</a></p>
 
+<!-- Installation -->
+## Installation
+#### Windows Only
+* To install SDL, download the latest setup or `sdl.exe` file from [Releases](https://github.com/Jettcodey/sdl/releases/latest) (the setup is recommended).
+> [!NOTE]  
+> The setup will place `sdl.exe` in a folder named `SDL` in your Program Files(x86) Folder and add `sdl` to your System Environment `PATH`.
+* After the installation is finished, simply open a terminal/cmd window. To begin downloading, take a look at these <a href="#full-examples">examples</a>.
+
+#### Linux and MacOS
+* Soon™
+<!--Download the Latest Zip file for your System from [Releases](https://github.com/Jettcodey/sdl/releases/latest).
+* After Downloading, Extract and Save the Content in a Safe Location where you want to save your Downloads and start a Terminal window where you put the contents.To begin downloading, take a look at these <a href="#full-examples">examples</a>.-->
 <!-- Usage -->
 ## Usage
 <!-- Downloading a single episode -->
@@ -217,5 +230,5 @@ See the [open issues](https://github.com/Jettcodey/sdl/issues) for a full list o
 
 ## Thanks
 * [aniworld_scraper](https://github.com/wolfswolke/aniworld_scraper) for the inspiration and showing how it could be done.
-* [Funami580](https://github.com/Funami580) for Creating this Project.
+* [Funami580](https://github.com/Funami580) for Developing this Command line utility.
 <p align="right"><a href="#sdl">Back to top</a></p>
