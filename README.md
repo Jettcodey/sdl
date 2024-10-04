@@ -40,7 +40,7 @@
 ### About the Project
 Download various anime and series from Aniwave.se, Aniworld.to, and S.to.
 
-This project is [licensed](https://github.com/Jettcodey/sdl/blob/master/LICENSE.txt) under the terms of the [MIT license](https://opensource.org/license/mit).
+This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.txt) under the terms of the [MIT license](https://opensource.org/license/mit).
 
 <!-- Supported sites -->
 ## Supported sites
