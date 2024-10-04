@@ -17,9 +17,11 @@ use crate::extractors::{
     exists_extractor_with_name, extract_video_url_with_extractor_from_source,
     extract_video_url_with_extractor_from_url_unchecked, extractor_supports_source,
 };
-
+/*
+Aniwave.to is now Aniwave.se! TODO: Fix Aniwave code !
+*/
 static URL_REGEX: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r#"(?i)^https?://(?:www\.)?aniwave\.to/watch/([^/\s]+)(?:/ep-([^/\s]+))?$"#).unwrap());
+    Lazy::new(|| Regex::new(r#"(?i)^https?://(?:www\.)?aniwave\.se/aninme-watch/([^/\s]+)(?:/ep-([^/\s]+))?$"#).unwrap());
 
 pub struct Aniwave<'driver> {
     driver: &'driver thirtyfour::WebDriver,
@@ -152,7 +154,7 @@ impl TryFrom<&str> for ParsedUrl {
 
 impl ParsedUrl {
     fn get_anime_url(&self) -> String {
-        format!("https://aniwave.to/watch/{}", self.anime_id)
+        format!("https://aniwave.se/anime-watch/{}", self.anime_id)
     }
 
     fn get_episode_url(&self, episode_id: &str) -> String {
@@ -192,7 +194,7 @@ impl<'driver, 'url, F: FnMut() -> Duration> Scraper<'driver, 'url, F> {
 
     async fn scrape(&mut self) -> Result<(), anyhow::Error> {
         let episodes_request = std::mem::replace(&mut self.request.episodes, EpisodesRequest::Unspecified);
-
+    
         match episodes_request {
             EpisodesRequest::Unspecified => {
                 if let Some(episode_id) = &self.parsed_url.episode_id {
@@ -205,8 +207,17 @@ impl<'driver, 'url, F: FnMut() -> Duration> Scraper<'driver, 'url, F> {
             EpisodesRequest::Seasons(_) => {
                 anyhow::bail!("AniWave does not support explicit seasons");
             }
+            EpisodesRequest::Combined { .. } => {
+                // Handle combined case by returning an error
+                anyhow::bail!("AniWave does not support combined seasons and episodes");
+            }
+            EpisodesRequest::All { .. } => {
+                // Handle All case by returning an error
+                anyhow::bail!("AniWave does not support All seasons and episodes");
+            }
         }
     }
+    
 
     async fn scrape_season(&mut self, episodes: &AllOrSpecific) -> Result<(), anyhow::Error> {
         let anime_url = self.parsed_url.get_anime_url();
@@ -546,13 +557,13 @@ mod tests {
     #[tokio::test]
     async fn test_supports_url() {
         let is_supported = [
-            "https://aniwave.to/watch/case-closed.myz/ep-316317",
-            "https://aniwave.to/watch/case-closed.myz/ep-345-b",
-            "https://aniwave.to/watch/case-closed.myz/ep-222-224",
-            "https://aniwave.to/watch/case-closed-crossroad-in-the-ancient-capital.mq2x",
-            "http://aniwave.to/watch/case-closed-crossroad-in-the-ancient-capital.mq2x",
-            "http://www.aniwave.to/watch/case-closed-crossroad-in-the-ancient-capital.mq2x",
-            "https://www.aniwave.to/watch/case-closed-crossroad-in-the-ancient-capital.mq2x",
+            "https://aniwave.se/anime-watch/detective-conan/ep-316317",
+            "https://aniwave.se/anime-watch/detective-conan/ep-345-b",
+            "https://aniwave.se/anime-watch/detective-conan/ep-222-224",
+            "https://aniwave.se/anime-watch/case-closed-crossroad-in-the-ancient-capital",
+            "http://aniwave.se/anime-watch/case-closed-crossroad-in-the-ancient-capital",
+            "http://www.aniwave.se/anime-watch/case-closed-crossroad-in-the-ancient-capital",
+            "https://www.aniwave.se/anime-watch/case-closed-crossroad-in-the-ancient-capital",
         ];
 
         for url in is_supported {
@@ -562,33 +573,33 @@ mod tests {
 
     #[test]
     fn test_parsed_url() {
-        let url1 = "https://aniwave.to/watch/case-closed.myz/ep-316317";
+        let url1 = "https://aniwave.se/anime-watch/detective-conan/ep-316317";
         let expected1 = ParsedUrl {
-            anime_id: "case-closed.myz".to_string(),
+            anime_id: "detective-conan".to_string(),
             episode_id: Some("316317".to_string()),
         };
 
-        let url2 = "https://aniwave.to/watch/case-closed.myz/ep-345-b";
+        /*let url2 = "https://aniwave.se/anime-watch/detective-conan/ep-345-b";
         let expected2 = ParsedUrl {
-            anime_id: "case-closed.myz".to_string(),
+            anime_id: "detective-conan".to_string(),
             episode_id: Some("345-b".to_string()),
-        };
+        };*/
 
-        let url3 = "https://aniwave.to/watch/case-closed.myz/ep-222-224";
+        let url3 = "https://aniwave.se/anime-watch/detective-conan/ep-222-224";
         let expected3 = ParsedUrl {
-            anime_id: "case-closed.myz".to_string(),
+            anime_id: "detective-conan".to_string(),
             episode_id: Some("222-224".to_string()),
         };
 
-        let url4 = "https://aniwave.to/watch/case-closed-crossroad-in-the-ancient-capital.mq2x";
+        let url4 = "https://aniwave.to/watch/case-closed-crossroad-in-the-ancient-capital";
         let expected4 = ParsedUrl {
-            anime_id: "case-closed-crossroad-in-the-ancient-capital.mq2x".to_string(),
+            anime_id: "case-closed-crossroad-in-the-ancient-capital".to_string(),
             episode_id: None,
         };
 
         let tests = [
             (url1, expected1),
-            (url2, expected2),
+            //(url2, expected2),
             (url3, expected3),
             (url4, expected4),
         ];

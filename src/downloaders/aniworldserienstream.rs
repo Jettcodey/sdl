@@ -227,7 +227,7 @@ impl<'driver, 'url, F: FnMut() -> Duration> Scraper<'driver, 'url, F> {
 
     async fn scrape(&mut self) -> Result<(), anyhow::Error> {
         let episodes_request = std::mem::replace(&mut self.request.episodes, EpisodesRequest::Unspecified);
-
+    
         match episodes_request {
             EpisodesRequest::Unspecified => {
                 if let Some(season) = &self.parsed_url.season {
@@ -244,9 +244,26 @@ impl<'driver, 'url, F: FnMut() -> Duration> Scraper<'driver, 'url, F> {
                 let season = self.parsed_url.season.as_ref().map(|season| season.season).unwrap_or(1);
                 self.scrape_season(season, &episodes).await
             }
-            EpisodesRequest::Seasons(seasons) => self.scrape_seasons(&seasons).await,
+            EpisodesRequest::Seasons(seasons) => {
+                self.scrape_seasons(&seasons).await
+            }
+            EpisodesRequest::Combined { seasons, episodes } => {
+                if let AllOrSpecific::Specific(season_ranges) = seasons {
+                    for season_range in season_ranges {
+                        for season in season_range.clone() {
+                            self.scrape_season(season, &episodes).await?;
+                        }
+                    }
+                    Ok(())
+                } else {
+                    Err(anyhow::anyhow!("Combined requests must specify specific seasons, not All."))
+                }
+            }
+            EpisodesRequest::All { .. } => {
+                anyhow::bail!("AniWorld does not support All seasons and episodes");
+            }
         }
-    }
+    }     
 
     async fn scrape_seasons(&mut self, seasons: &AllOrSpecific) -> Result<(), anyhow::Error> {
         let first_episode_url = self.parsed_url.get_episode_url(1, 1);
@@ -281,51 +298,51 @@ impl<'driver, 'url, F: FnMut() -> Duration> Scraper<'driver, 'url, F> {
     }
 
     async fn scrape_season(&mut self, season: u32, episodes: &AllOrSpecific) -> Result<(), anyhow::Error> {
-        let first_episode_url = self.parsed_url.get_episode_url(season, 1);
-        let mut already_is_on_page = false;
+    let first_episode_url = self.parsed_url.get_episode_url(season, 1);
+    let mut already_is_on_page = false;
 
-        if let Ok(current_url) = self.driver.current_url().await {
-            if current_url.as_str().eq_ignore_ascii_case(&first_episode_url) {
-                already_is_on_page = true;
-            }
+    if let Ok(current_url) = self.driver.current_url().await {
+        if current_url.as_str().eq_ignore_ascii_case(&first_episode_url) {
+            already_is_on_page = true;
         }
-
-        if !already_is_on_page {
-            self.driver
-                .goto(first_episode_url)
-                .await
-                .with_context(|| "failed to go to episode page")?;
-            sleep_random(1000..=2000).await; // wait until page has loaded
-            self.settings.maybe_ddos_wait().await;
-        }
-
-        let max_episodes = self
-            .get_episode_info(season, 1)
-            .await
-            .with_context(|| "failed to get episode info")?
-            .max_episode_number_in_season
-            .with_context(|| "failed to get maximum episode number in season")?;
-
-        let mut goto = false;
-        let mut got_error = false;
-
-        for episode in 1..=max_episodes {
-            if episodes.contains(episode) {
-                if let Err(err) = self.scrape_episode(season, episode, goto).await {
-                    log::warn!("Failed to get video url for S{season:02}E{episode:03}: {err:#}");
-                    got_error = true;
-                }
-            }
-
-            goto = true;
-        }
-
-        if got_error {
-            anyhow::bail!("failed to download complete season");
-        }
-
-        Ok(())
     }
+
+    if !already_is_on_page {
+        self.driver
+            .goto(first_episode_url)
+            .await
+            .with_context(|| "failed to go to episode page")?;
+        sleep_random(1000..=2000).await; // wait until page has loaded
+        self.settings.maybe_ddos_wait().await;
+    }
+
+    let max_episodes = self
+        .get_episode_info(season, 1)
+        .await
+        .with_context(|| "failed to get episode info")?
+        .max_episode_number_in_season
+        .with_context(|| "failed to get maximum episode number in season")?;
+
+    let mut goto = false;
+    let mut got_error = false;
+
+    // Scrape either all episodes or the specified ones
+    for episode in 1..=max_episodes {
+        if episodes.contains(episode) {
+            if let Err(err) = self.scrape_episode(season, episode, goto).await {
+                log::warn!("Failed to get video url for S{season:02}E{episode:03}: {err:#}");
+                got_error = true;
+            }
+        }
+        goto = true;
+    }
+
+    if got_error {
+        anyhow::bail!("failed to download complete season");
+    }
+
+    Ok(())
+}
 
     async fn scrape_episode(&mut self, season: u32, episode: u32, goto: bool) -> Result<(), anyhow::Error> {
         if goto {
