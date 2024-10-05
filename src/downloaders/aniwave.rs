@@ -21,7 +21,7 @@ use crate::extractors::{
 Aniwave.to is now Aniwave.se! TODO: Fix Aniwave code !
 */
 static URL_REGEX: Lazy<Regex> =
-    Lazy::new(|| Regex::new(r#"(?i)^https?://(?:www\.)?aniwave\.se/aninme-watch/([^/\s]+)(?:/ep-([^/\s]+))?$"#).unwrap());
+    Lazy::new(|| Regex::new(r#"(?i)^https?://(?:www\.)?aniwave\.se/anime-watch/([^/\s]+)(?:/ep-([^/\s]+))?$"#).unwrap());
 
 pub struct Aniwave<'driver> {
     driver: &'driver thirtyfour::WebDriver,
@@ -591,9 +591,9 @@ mod tests {
             episode_id: Some("222-224".to_string()),
         };
 
-        let url4 = "https://aniwave.to/watch/case-closed-crossroad-in-the-ancient-capital";
+        let url4 = "https://aniwave.se/anime-watch/detective-conan";
         let expected4 = ParsedUrl {
-            anime_id: "case-closed-crossroad-in-the-ancient-capital".to_string(),
+            anime_id: "detective-conan".to_string(),
             episode_id: None,
         };
 
