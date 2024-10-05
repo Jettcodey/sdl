@@ -64,9 +64,9 @@ This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.
 <!-- Installation -->
 ## Installation
 #### Windows Only
-* To install SDL, download the latest setup or `sdl.exe` file from [Releases](https://github.com/Jettcodey/sdl/releases/latest) (the setup is recommended).
+* To install SDL, download the latest setup or `sdl-x.x.x-windows-x64.zip` file from [Releases](https://github.com/Jettcodey/sdl/releases/latest) (the setup is recommended).
 > [!NOTE]  
-> The setup will place `sdl.exe` in a folder named `SDL` in your Program Files(x86) Folder and add `sdl` to your System Environment `PATH`.
+> The setup will place `sdl.exe` at `C:\Program Files(x86)\SDL\` Folder and add `sdl` to your System Environment `PATH`.
 * After the installation is finished, simply open a terminal/cmd window. To begin downloading, take a look at these <a href="#full-examples">examples</a>.
 
 #### Linux and MacOS
@@ -141,9 +141,9 @@ sdl -t german 'https://s.to/serie/stream/higurashi-no-naku-koro-ni/staffel-1/epi
 
 <!-- Full Examples -->
 ### Full Examples
-Download Season 2 Ep 5 in German Audio(GerDub):
+Download Season 2 Ep 3 in German Audio(GerDub):
 ```bash
-sdl -s 2 -e 1 -t gerdub 'https://aniworld.to/anime/stream/rent-a-girlfriend'
+sdl -s 2 -e 3 -t gerdub 'https://aniworld.to/anime/stream/rent-a-girlfriend'
 ```
 Download Full Season 3 in Japanese Audio&English Sub(EngSub):
 ```bash
