@@ -46,11 +46,12 @@ This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.
 <!-- Supported sites -->
 ## Supported sites
 ### English
-* [Aniwave.se](https://aniwave.se) <-- Most likely Not Working right now.
+* [AniWave.se](https://aniwave.se) <-- Not Working Rightnow
+* [S.to](https://s.to) | [SerienStream.to](serienstream.to/)
 
 ### German
 * [AniWorld.to](https://aniworld.to)
-* [S.to](https://s.to)
+* [S.to](https://s.to) | [SerienStream.to](serienstream.to/)
 <p align="right"><a href="#sdl">Back to top</a></p>
 
 <!-- Supported extractors -->
@@ -64,7 +65,7 @@ This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.
 <!-- Installation -->
 ## Installation
 #### Windows Only
-* To install SDL, download the latest setup or `sdl-x.x.x-windows-x64.zip` file from [Releases](https://github.com/Jettcodey/sdl/releases/latest) (the setup is recommended).
+* To install SDL, download the latest Setup file `SDL-Installer.exe` or `sdl-x.x.x-windows-x64.zip` from [Releases](https://github.com/Jettcodey/sdl/releases/latest) (the setup is recommended).
 > [!NOTE]  
 > The setup will place `sdl.exe` at `C:\Program Files(x86)\SDL\` Folder and add `sdl` to your System Environment `PATH`.
 * After the installation is finished, simply open a terminal/cmd window. To begin downloading, take a look at these <a href="#full-examples">examples</a>.
