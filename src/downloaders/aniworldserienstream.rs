@@ -17,7 +17,7 @@ use crate::downloaders::{Downloader, EpisodesRequest};
 use crate::extractors::extract_video_url_with_extractor_from_url_unchecked;
 
 static URL_REGEX: Lazy<Regex> = Lazy::new(|| {
-    Regex::new(r#"(?i)^https?://(?:www\.)?(?:(aniworld)\.to/anime|(s)\.to/serie)/stream/([^/\s]+)(?:/(?:(?:staffel-([1-9][0-9]*)(?:/(?:episode-([1-9][0-9]*)/?)?)?)|(?:(filme)(?:/(?:film-([1-9][0-9]*)/?)?)?))?)?$"#)
+    Regex::new(r#"(?i)^https?://(?:www\.)?(?:(aniworld)\.to/anime|(s)\.to/serie|(serienstream)\.to/serie)/stream/([^/\s]+)(?:/(?:(?:staffel-([1-9][0-9]*)(?:/(?:episode-([1-9][0-9]*)/?)?)?)|(?:(filme)(?:/(?:film-([1-9][0-9]*)/?)?)?))?)?$"#)
         .unwrap()
 });
 
@@ -122,6 +122,8 @@ impl TryFrom<&str> for ParsedUrl {
             Site::AniWorld
         } else if site.eq_ignore_ascii_case("s") {
             Site::SerienStream
+        } else if site.eq_ignore_ascii_case("serienstream") {
+            Site::SerienStream
         } else {
             anyhow::bail!("failed to parse site name");
         };
@@ -191,6 +193,7 @@ impl Site {
         match self {
             Site::AniWorld => "https://aniworld.to/anime/stream",
             Site::SerienStream => "https://s.to/serie/stream",
+            Site::SerienStream => "https://serienstream.to/serie/stream",
         }
     }
 }
@@ -604,6 +607,10 @@ mod tests {
             "https://s.to/serie/stream/detektiv-conan/filme",
             "https://s.to/serie/stream/detektiv-conan/staffel-5",
             "https://s.to/serie/stream/detektiv-conan/staffel-1/episode-1",
+            "https://serienstream.to/serie/stream/detektiv-conan",
+            "https://serienstream.to/serie/stream/detektiv-conan/filme",
+            "https://serienstream.to/serie/stream/detektiv-conan/staffel-5",
+            "https://serienstream.to/serie/stream/detektiv-conan/staffel-1/episode-1",
         ];
 
         for url in is_supported {
@@ -650,11 +657,33 @@ mod tests {
             }),
         };
 
+        let url5 = "https://serienstream.to/serie/stream/detektiv-conan/staffel-19/episode-20";
+        let expected5 = ParsedUrl {
+            site: Site::SerienStream,
+            name: "detektiv-conan".to_string(),
+            season: Some(ParsedUrlSeason {
+                season: 19,
+                episode: Some(20),
+            }),
+        };
+
+        let url6 = "https://serienstream.to/serie/stream/detektiv-conan/filme/film-3";
+        let expected6 = ParsedUrl {
+            site: Site::SerienStream,
+            name: "detektiv-conan".to_string(),
+            season: Some(ParsedUrlSeason {
+                season: 0,
+                episode: Some(3),
+            }),
+        };
+
         let tests = [
             (url1, expected1),
             (url2, expected2),
             (url3, expected3),
             (url4, expected4),
+            (url5, expected5),
+            (url6, expected6),
         ];
 
         for (input, output) in tests {
