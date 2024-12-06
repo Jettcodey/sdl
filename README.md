@@ -39,16 +39,16 @@
 
 <!-- ABOUT THE PROJECT -->
 ### About the Project
-Download various anime and series from Aniwave.se, Aniworld.to, and S.to.
+Download various anime and series from <!--Aniwave.se,--> Aniworld.to, and S.to | SerienStream.to.
 
 This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.txt) under the terms of the [MIT license](https://opensource.org/license/mit).
 
 <!-- Supported sites -->
 ## Supported sites
-### English
+<!-- ### English
 * [AniWave.se](https://aniwave.se) <-- Not Working Rightnow
 * [S.to](https://s.to) | [SerienStream.to](serienstream.to/)
-
+-->
 ### German
 * [AniWorld.to](https://aniworld.to)
 * [S.to](https://s.to) | [SerienStream.to](serienstream.to/)
@@ -58,6 +58,7 @@ This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.
 ## Supported extractors
 * Filemoon
 * Streamtape
+* Speedfiles
 * Vidoza
 * Voe
 <p align="right"><a href="#sdl">Back to top</a></p>
@@ -78,24 +79,27 @@ This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.
 <!-- Downloading a single episode -->
 ### Downloading a single episode
 By URL:
-```bash
+<!--```bash
 sdl 'https://aniwave.se/anime-watch/yuruyuri/ep-11'
+```-->
+```bash
+sdl 'https://aniworld.to/anime/stream/rent-a-girlfriend/staffel-1/episode-7'
 ```
 By specifying it explicitly
 ```bash
 sdl -s 2 -e 5 'https://aniworld.to/anime/stream/rent-a-girlfriend'
 ```
-(Aniwave ONLY):
+<!--(Aniwave ONLY):
 ```bash
 sdl -e 11 'https://aniwave.se/anime-watch/yuruyuri'
-```
+```-->
 <p align="right"><a href="#sdl">Back to top</a></p>
 
 <!-- Downloading an entire season -->
 ### Downloading an entire season
 By URL:
+<!-- sdl 'https://aniwave.se/anime-watch/yuruyuri' -->
 ```bash
-sdl 'https://aniwave.se/anime-watch/yuruyuri'
 sdl 'https://aniworld.to/anime/stream/yuruyuri-happy-go-lily/staffel-2'
 sdl 'https://aniworld.to/anime/stream/yuruyuri-happy-go-lily/filme'
 ```
@@ -109,7 +113,7 @@ sdl -s 0 'https://aniworld.to/anime/stream/yuruyuri-happy-go-lily'
 <!-- Downloading multiple episodes -->
 ### Downloading multiple episodes
 ```bash
-sdl -e 1,2-6,9 'https://aniwave.se/anime-watch/yuruyuri'
+sdl -e 1,2-6,9 'https://aniworld.to/anime/stream/rent-a-girlfriend'
 ```
 <p align="right"><a href="#sdl">Back to top</a></p>
 
@@ -131,12 +135,12 @@ sdl 'https://aniworld.to/anime/stream/yuruyuri-happy-go-lily'
 ### Downloading in other languages
 ```bash
 sdl -t gersub 'https://s.to/serie/stream/higurashi-no-naku-koro-ni/staffel-1/episode-1'
-sdl -t engdub 'https://aniwave.se/anime-watch/detective-conan/ep-1'
+sdl -t engdub 'https://aniworld.to/anime/stream/rent-a-girlfriend'
 ```
 Either dub or sub:
 ```bash
-sdl -t ger 'https://s.to/serie/stream/higurashi-no-naku-koro-ni/staffel-1/episode-1'
-sdl -t german 'https://s.to/serie/stream/higurashi-no-naku-koro-ni/staffel-1/episode-1'
+sdl -t ger 'https://serienstream.to/serie/stream/prison-break'
+sdl -t german 'https://s.to/serie/stream/prison-break/staffel-1/episode-1'
 ```
 <p align="right"><a href="#sdl">Back to top</a></p>
 
@@ -152,7 +156,7 @@ sdl -s 3 -t engsub 'https://aniworld.to/anime/stream/rent-a-girlfriend'
 ```
 
 If an episode has multiple languages, the general language preference is as follows:
-* English Anime Website: EngSub > EngDub
+<!-- * English Anime Website: EngSub > EngDub -->
 * German Anime Website: GerDub > GerSub > EngSub > EngDub
 * German non-Anime Website: GerDub > GerSub > EngDub > EngSub
 <p align="right"><a href="#sdl">Back to top</a></p>

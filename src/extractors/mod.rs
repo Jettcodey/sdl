@@ -6,12 +6,13 @@ use crate::extractors::filemoon::Filemoon;
 use crate::extractors::streamtape::Streamtape;
 use crate::extractors::vidoza::Vidoza;
 use crate::extractors::voe::Voe;
+use crate::extractors::speedfiles::Speedfiles;
 
 pub mod dummy;
 pub mod filemoon;
 pub mod streamtape;
+pub mod speedfiles;
 pub mod vidoza;
-pub mod vidplay;
 pub mod voe;
 
 macro_rules! normalized_name {
@@ -224,7 +225,7 @@ create_functions_for_extractors! {
     Filemoon,
     Streamtape,
     Vidoza,
-    // Vidplay,
+    Speedfiles,
     Voe,
 }
 
