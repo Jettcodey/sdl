@@ -56,6 +56,8 @@ This project is [licensed](https://github.com/Jettcodey/sdl/blob/Master/LICENSE.
 
 <!-- Supported extractors -->
 ## Supported extractors
+* Vidmoly
+* Doodstream
 * Filemoon
 * Streamtape
 * Speedfiles
