@@ -33,9 +33,11 @@
 **Warning: This project is generally not well tested.**
 
 > [!NOTE]
-> This is a fork of https://github.com/Funami580/sdl.
-> I’m developing this independently from the original repo.
-> All credit for creating this command-line utility goes to [Funami580](https://github.com/Funami580).
+> This is a fork of [Funami580's SDL repository](https://github.com/Funami580/sdl).  
+> I am developing this independently from the original repository for personal use.  
+> I may use code from the upstream repository as needed.  
+> Full credit for creating this command-line utility goes to [Funami580](https://github.com/Funami580).
+
 
 <!-- ABOUT THE PROJECT -->
 ### About the Project
